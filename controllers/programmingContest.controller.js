@@ -1,6 +1,25 @@
+const { Mongoose } = require("mongoose");
 const ProgrammingContest = require("../models/ProgrammingContest.model");
+const sendMail = require("./sendMail.controller.js");
+
+let regID = 202105000;
+
+const getRegisterID = () => {
+    ProgrammingContest.findOne({ registerID: regID }).then((participant) => {
+        if (participant) {
+            regID++;
+            console.log("finding");
+            console.log(regID);
+            getRegisterID();
+        } else {
+            console.log("the one to save");
+            console.log(regID);
+        }
+    });
+};
 
 const getPC = (req, res) => {
+    getRegisterID();
     res.render("programming-contest/register.ejs", {
         error: req.flash("error"),
     });
@@ -33,6 +52,10 @@ const postPC = (req, res) => {
     console.log(coachName);
     console.log(member1Tshirt);
 
+    let registerID = regID;
+    console.log("the one saving");
+    console.log(registerID);
+
     const registrationFee = 2000;
     const total = registrationFee;
     const paid = 0;
@@ -51,6 +74,7 @@ const postPC = (req, res) => {
         } else {
             const programmingTeam = new ProgrammingContest({
                 teamName,
+                registerID,
                 institutionName,
                 coachName,
                 coachContact,
@@ -75,6 +99,8 @@ const postPC = (req, res) => {
             programmingTeam
                 .save()
                 .then(() => {
+                    sendMail(coachEmail, registerID);
+                    console.log(registerID);
                     error = "Team has been registered successfully!";
                     req.flash("error", error);
                     res.redirect("/ProgrammingContest/register");

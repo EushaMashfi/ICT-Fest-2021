@@ -35,14 +35,14 @@ async function sendMail(email, verficationCode) {
         });
 
         const mailOptions = {
-            from: "AGAINST PANDEMIC<timambinsaif462@gmail.com>",
+            from: "ICT Fest 2021<eushamashfi@gmail.com>",
             to: email,
-            subject: "Verification Code",
+            subject: "Registration Code",
             text: vfCode,
             html:
-                " <b>Hi!<br> <p> You are registering in Against Pandemic app.<h4>Your verification code<b> is :</h4><h1><t>" +
+                " <b>Hi!<br> <p> You have successfully registered to ICT Fest 2021<h4>Registration code<b> :</h4><h1><t>" +
                 vfCode +
-                "</h1> <t><br><p>Againstg Pandemic</p><br><p>This is an automated email. Please do not reply to this email</p></b.",
+                "</h1> <t><br><p>ICT FEST Comittee</p><br><p>Best Wishes</p></b.",
         };
         const result = await transport.sendMail(mailOptions);
         return result;

@@ -1,4 +1,7 @@
+const { Mongoose } = require("mongoose");
 const MathOlympiad = require("../models/MathOlympiad.model");
+const sendMail = require("./sendMail.controller.js");
+
 let regID = 202104000;
 
 const getRegisterID = () => {
@@ -70,8 +73,8 @@ const postMO = (req, res) => {
                 participant
                     .save()
                     .then(() => {
-                        sendMail(email, verficationCode);
-                        console.log("abcd");
+                        sendMail(email, registerID);
+                        console.log(registerID);
                         error = "Participant has been registered successfully!";
                         req.flash("error", error);
                         res.redirect("/MathOlympiad/register");
